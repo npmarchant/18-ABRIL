@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="w=device-w, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <title>D3.js</title>
+      <link rel="stylesheet" href="style.css">
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-12">
+               <h3>Torres del Paine </h3>
+               <h5>Montañistas extranjeros y chilenos residentes en el extranjero lideran las visitas al parque</h5>
+               <p>El parque nacional Torres del Paine es uno de los más grandes e importantes parques nacionales de Chile, y un área silvestre protegida. En 2006, ocupaba una superficie de 242 242 ha, aproximadamente. Es el tercero con más visitas, de las cuales cerca del 75% corresponde a turistas extranjeros, especialmente europeos. Se ubica a 112 km al norte de Puerto Natales y a 312 de la ciudad de Punta Arenas.</p>
+               <div id="here" class="my-4"></div>
+            </div>
+            <div class="col-12">
+               <nav aria-label="navegador">
+                  <ul class="pagination">
+                     <li class="page-item"><a class="page-link" href="index.html">1</a></li>
+                     <li class="page-item"><a class="page-link" href="funcion.html">2</a></li>
+                     <li class="page-item"><a class="page-link" href="arreglo.html">3</a></li>
+                     <li class="page-item"><a class="page-link" href="objeto.html">4</a></li>
+                     <li class="page-item"><a class="page-link" href="fetch-json.html">5</a></li>
+                     <li class="page-item"><a class="page-link" href="fetch-csv.html">6</a></li>
+                     <li class="page-item active"><a class="page-link" href="freddy-turbina.html">7</a></li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </div>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script>
+
+   var w = 980, h = 450, radius = 230;
+
+   var calculo = [ //aca tengo los paises con mayor superficie o mas grandes del mundo
+      {name: 'USA', count: 29, color: '#372D3B'}, // a cada uno le asigne un color, tamano y nombre pero en 3 caracteres
+      {name: 'ESPAÑA', count: 25, color: '#594754'},
+      {name: 'RUSIA', count: 11, color: '#916167'},
+      {name: 'INGLATERRA', count: 9, color: '#C27955'},
+      {name: 'HOLANDA', count: 6, color: '#DE923C'},
+      {name: 'ITALIA', count: 4, color: '#ff9d3f'},
+    ];
+
+    var arc = d3.arc().outerRadius(radius - 50).innerRadius(90); //me aprovecho de los arcos
+
+    var pie = d3.pie().sort(null).value(function(d) { return d.count; });
+
+    var svg = d3.select('#here').append("svg")
+      .attr("width", w)
+      .attr("height", h)
+      .style("background","#EEEEEE")
+      .append("g")
+      .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
+
+    var g = svg.selectAll(".arc")
+      .data(pie(calculo)) //necesito q haga un ajuste porque voy a trabajar con un "pie". un circulo lo puedo pensar como 360 grados o como 100%
+      .enter().append("g");
+
+    g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d,i) { return d.data.color; });
+
+    g.append("text")
+      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.name; })
+      .attr("fill","black")
+      .style("font-size","11px")
+
+</script>
+      <!-- jQuery primero, luego Popper.js, y finalmente Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   </body>
+</html>

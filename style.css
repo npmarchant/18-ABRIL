@@ -1,0 +1,13 @@
+body{
+	padding-top: 3rem;
+}
+
+rect{
+fill:#594754;
+}
+
+rect:hover{
+fill:#DE923C;
+transition: all ease 1.5s;
+cursor: crosshair;
+}
